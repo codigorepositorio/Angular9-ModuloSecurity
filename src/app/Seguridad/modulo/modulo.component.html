@@ -1,0 +1,256 @@
+<p-confirmDialog header="Confirmación" acceptLabel="Si" rejectLabel="No" icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
+
+<p-panel header=" Mantenimiento de Modulos" [toggleable]="true"
+    [style]="{'margin-bottom':'20px,width:100%,margin:0 auto'}">
+    <p-menubar [model]="items"></p-menubar>
+
+
+    <ng-container>
+
+        <p-table #dt [columns]="cols" [value]="segModulos" dataKey="idModulo" [resizableColumns]="true"
+            [responsive]="true" [paginator]="true" selectionMode="single" [(selection)]="selectedModulo" [rows]="10"
+            [resizableColumns]="true" columnResizeMode="expand" autoLayout="true">
+
+            <!-- Buscador -->
+            <ng-template pTemplate="caption">
+
+                <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+
+            </ng-template>
+
+            <span class="st-icon-addthis"></span>
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 3em"></th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+
+                        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                </tr>
+                <!-- Inicio: Método que hace la busqueda (Filter Global) -->
+                <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <input *ngSwitchCase="''" pInputText type="text"
+                            (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    </th>
+                </tr>
+                <!-- Fin -->
+
+            </ng-template>
+
+
+
+
+
+
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td>
+                        <a href="#" [pRowToggler]="rowData">
+                            <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        {{rowData.idModulo}}
+                    </td>
+
+                    <td>
+                        {{rowData.nomModulo}}
+                    </td>
+
+                    <td>
+                        {{rowData.idAplicativo}}
+                    </td>
+
+
+                    <td *ngIf="rowData.isModuloActivo">
+                        Activo
+                    </td>
+
+                    <td *ngIf="rowData.isModuloActivo==0">
+                        Inactivo
+                    </td>
+
+                    <td>
+                        {{rowData.regCreate| date:'short'| lowercase }}
+                    </td>
+
+
+                    <td>
+                        {{rowData.regCreateIdUsuario}}
+                    </td>
+
+
+                    <td>
+                        {{rowData.regUpdate| date:'short'| lowercase }}
+                    </td>
+
+                    <td>
+                        {{rowData.regUpdateIdUsuario}}
+                    </td>
+
+
+
+
+
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                <tr>
+                    <td [attr.colspan]="columns.length + 1">
+                        <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                            <div class="ui-g-12 ui-md-3" style="text-align:center">
+                                <img [attr.alt]="rowData.brand"
+                                    src="assets/showcase/images/demo/car/{{rowData.brand}}.png">
+                            </div>
+                            <div class="ui-g-12 ui-md-9">
+                                <div class="ui-g">
+                                    <div class="ui-g-12">
+                                        <b>Vin:</b> {{rowData.idModulo}}
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <b>Year:</b> {{rowData.nomModulo}}
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <b>Brand:</b> {{rowData.isModuloActivo}}
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <b>Color:</b> {{rowData.regCreate}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        <p-footer style="color:orangered;">
+            <b>Cantidad de registros : {{cantidaRegistros}}</b>
+            <br />
+            <b>{{mensajeError}}</b>
+        </p-footer>
+
+    </ng-container>
+
+
+
+</p-panel>
+
+
+<p-dialog header={{titulo}} [(visible)]="displaySaveDialog" [responsive]="true" [style]="{width: '40vw'}"
+    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true">
+
+    <div class="ui-g ui-fluid">
+
+
+        <!-- 1 -->
+
+        <div class="ui-g-12" *ngIf="edicion">
+
+            <div class="ui-g-4">
+                <label for="idModulo">ID</label>
+            </div>
+            <div class="ui-g-8">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                    <input type="text" id="idModulo" [(ngModel)]="segmodulo.idModulo" pInputText placeholder="ID"
+                        disabled="true">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 2 -->
+
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="nombre">Aplicativo</label>
+            </div>
+            <div class="ui-g-8">
+                <div class="ui-inputgroup">
+
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+
+                        <select id="aplicativos" name='options' (change)="aplicativoSeleccionado($event)"
+                            class="ng-pristine ng-valid ui-inputtext ui-corner-all ui-state-default ui-widget ng-touched">
+                            <option value="-1">Select a budget range</option>
+                            <option *ngFor="let item of segAplicativos; let i = index" [attr.value]="item.idAplicativo"
+                                [attr.selected]="item.idAplicativo == codigoAplicativo ? true : null">
+                                {{item.nomAplicativo}}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 3 -->
+
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="nombre">Nombre</label>
+            </div>
+            <div class="ui-g-8">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                    <input type="text" id="nomModulo" [(ngModel)]="segmodulo.nomModulo" pInputText
+                        placeholder="Nombre Módulo">
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="Estado">Estado</label>
+            </div>
+            <div class="ui-g-8">
+                <p-checkbox name="isModuloActivo" value="val1" label="Activo" [(ngModel)]="segmodulo.isModuloActivo"
+                    binary="true"></p-checkbox>
+            </div>
+
+            <p style="color: red;">{{mensajeError}}</p>
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- 
+test
+
+     -->
+
+
+
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" (click)="saveModulo()" pButton icon="fa fa-check" label="Guardar"
+                style="border-color: orange; background-color: #ffefcc; color: orangered;"></button>
+            <button type="button" pButton icon="fa fa-close" (click)="Cancelar()" label="Cancelar"
+                style="background-color: #E04023; border-color: #E04023;"></button>
+        </div>
+    </p-footer>
+
+</p-dialog>

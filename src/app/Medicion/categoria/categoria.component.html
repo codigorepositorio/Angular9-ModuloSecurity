@@ -1,0 +1,110 @@
+<!-- <div class="ui-g"></div> -->
+<div>
+    <!-- <p-messages [(value)]="msgs"hideTransitionOptions="250ms" enableService="false"></p-messages> -->
+    <p-toast></p-toast>
+    <p-confirmDialog header="Confirmación" acceptLabel="Si" rejectLabel="No" icon="pi pi-exclamation-triangle">
+    </p-confirmDialog>
+
+
+    <p-panel header=" Mantenimiento de Categorias" [toggleable]="true"
+        [style]="{'margin-bottom':'20px,width:100%,margin:0 auto'}">
+        <p-menubar [model]="items"></p-menubar>
+
+
+        <ng-container *ngIf="categorias">
+
+            <p-table [value]="categorias" [resizableColumns]="true" [responsive]="true" [paginator]="true"
+                selectionMode="single" [(selection)]="selectedCategoria" [rows]="10" [resizableColumns]="true"
+                columnResizeMode="expand" autoLayout="true" [columns]="cols" datakey="idCategoria">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        </th>
+
+
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-categoria let-columns="columns">
+                    <tr [pSelectableRow]="categoria">
+
+                        <td *ngFor="let col of columns">
+                            {{categoria[col.field]}}
+
+                        </td>
+
+                </ng-template>
+
+            </p-table>
+        </ng-container>
+
+        <p-footer style="color:orangered;">
+            <b>Cantidad de registros : {{cantidaRegistros}}</b>
+            <br />
+            <b>{{mensajeError}}</b>
+        </p-footer>
+    </p-panel>
+
+    <p-dialog header={{titulo}} [(visible)]="displaySaveDialog" [responsive]="true" [style]="{width: '40vw'}"
+        [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true">
+
+        <div class="ui-g ui-fluid">
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="idCategoria">ID</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="idCategoria" [(ngModel)]="categoria.idCategoria" pInputText
+                            placeholder="idCategoria" disabled="true">
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre">Nombre</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="nombre" [(ngModel)]="categoria.nombre" pInputText placeholder="Nombre">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Estado">Estado</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-checkbox name="isActivo" value="val1" label="Activo" [(ngModel)]="categoria.isActivo"
+                        binary="true"></p-checkbox>
+                </div>
+
+                <p style="color: red;">{{mensajeError}}</p>
+
+            </div>
+
+
+
+        </div>
+
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="fa fa-close" (click)="Cancelar()" label="Cancelar"></button>
+                <button type="button" (click)="saveCategoria()" pButton icon="fa fa-check" label="Save"></button>
+            </div>
+        </p-footer>
+
+    </p-dialog>
+</div>

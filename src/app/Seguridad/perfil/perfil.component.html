@@ -1,0 +1,172 @@
+<p-confirmDialog header="Confirmación" acceptLabel="Si" rejectLabel="No" icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
+
+<p-panel header=" Mantenimiento de Perfiles" [toggleable]="true"
+    [style]="{'margin-bottom':'20px,width:100%,margin:0 auto'}">
+    <p-menubar [model]="items"></p-menubar>
+
+
+    <ng-container>
+
+        <p-table #dt [columns]="cols" [value]="segPerfiles" dataKey="idPerfil" [resizableColumns]="true"
+            [responsive]="true" [paginator]="true" selectionMode="single" [(selection)]="selectedPerfil" [rows]="10"
+            [resizableColumns]="true" columnResizeMode="expand" autoLayout="true">
+
+            <!-- Buscador -->
+            <ng-template pTemplate="caption">
+
+                <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+
+            </ng-template>
+
+            <span class="st-icon-addthis"></span>
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 3em"></th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+
+                        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+                </tr>
+                <!-- Inicio: Método que hace la busqueda (Filter Global) -->
+                <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <input *ngSwitchCase="''" pInputText type="text"
+                            (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    </th>
+                </tr>
+                <!-- Fin -->
+
+            </ng-template>
+
+
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td>
+                        <a href="#" [pRowToggler]="rowData">
+                            <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                        </a>
+                    </td>
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                <tr>
+                    <td [attr.colspan]="columns.length + 1">
+                        <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                            <div class="ui-g-12 ui-md-3" style="text-align:center">
+                                <img [attr.alt]="rowData.brand"
+                                    src="assets/showcase/images/demo/car/{{rowData.brand}}.png">
+                            </div>
+                            <div class="ui-g-12 ui-md-9">
+                                <div class="ui-g">
+                                    <div class="ui-g-12">
+                                        <b>Vin:</b> {{rowData.idPerfil}}
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <b>Year:</b> {{rowData.nomPerfil}}
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <b>Brand:</b> {{rowData.isPerfilActivo}}
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <b>Color:</b> {{rowData.regCreate}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        <p-footer style="color:orangered;">
+            <b>Cantidad de registros : {{cantidaRegistros}}</b>
+            <br />
+            <b>{{mensajeError}}</b>
+        </p-footer>
+
+    </ng-container>
+
+
+</p-panel>
+
+
+<p-dialog header={{titulo}} [(visible)]="displaySaveDialog" [responsive]="true" [style]="{width: '40vw'}"
+    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true">
+
+    <div class="ui-g ui-fluid">
+
+
+        <!-- 1 -->
+
+        <div class="ui-g-12" *ngIf="edicion">
+            <div class="ui-g-4">
+                <label for="idUsuario">ID</label>
+            </div>
+            <div class="ui-g-8">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                    <input type="text" id="idPeril" [(ngModel)]="segperfil.idPerfil" pInputText placeholder="ID"
+                        disabled="true">
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- 2 -->
+
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="nombre">Código Perfil</label>
+            </div>
+            <div class="ui-g-8">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                    <input type="text" id="nomPerfil" [(ngModel)]="segperfil.nomPerfil" pInputText
+                        placeholder="Nombre perfil">
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="Estado">Estado</label>
+            </div>
+            <div class="ui-g-8">
+                <p-checkbox name="isPerfilActivo" value="val1" label="Activo" [(ngModel)]="segperfil.isPerfilActivo"
+                    binary="true"></p-checkbox>
+            </div>
+
+            <p style="color: red;">{{mensajeError}}</p>
+
+        </div>
+
+    </div>
+
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" (click)="savePerfil()" pButton icon="fa fa-check" label="Guardar"
+                style="border-color: orange; background-color: #ffefcc; color: orangered;"></button>
+            <button type="button" pButton icon="fa fa-close" (click)="Cancelar()" label="Cancelar"
+                style="background-color: #E04023; border-color: #E04023;"></button>
+        </div>
+    </p-footer>
+
+</p-dialog>

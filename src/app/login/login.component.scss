@@ -1,0 +1,74 @@
+.language-menu {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+}
+.img-fondo{
+    background-image: url('../../assets/img/FONDO5.jpg');
+    height: 100vh;
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    position: absolute;
+}
+
+.login-body{
+    .login-content{
+        img{
+            width: 100%!important;
+            max-width: 360px!important;
+        }
+    }
+}
+
+.btn-ingreso-login{
+    width: 100px;
+}
+
+.img-ingreso{
+    margin-bottom: 100px!important;
+}
+
+@media (max-width:768px){
+    .img-fondo{
+    background-image:none;
+    }
+    .login-body{
+        .login-content{
+            .bienvenida{ 
+                margin: 0 auto 10px auto;
+                width: auto;
+            }
+            img{
+            }
+        }
+    }
+    
+}
+
+
+@media (max-width:970px){
+
+    .login-body{
+        .login-content{
+            .bienvenida{
+                width: 200px;
+            }
+            img{
+                max-width: 280px!important;
+            }
+        }
+    }
+}
+@media (min-width:1300px){
+.login-body{
+        .login-content{
+            .bienvenida{
+            }
+            img{
+                max-width: 500px!important;
+            }
+        }
+    }
+}

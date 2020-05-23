@@ -1,0 +1,230 @@
+<!-- <div class="ui-g"></div> -->
+<div>
+    <!-- <p-messages [(value)]="msgs"hideTransitionOptions="250ms" enableService="false"></p-messages> -->
+
+    <p-confirmDialog header="Confirmación" acceptLabel="Si" rejectLabel="No" icon="pi pi-exclamation-triangle">
+    </p-confirmDialog>
+
+
+    <p-panel header=" Mantenimiento de Usuarios" [toggleable]="true" [style]="{'margin-bottom':'20px,width:100%,margin:0 auto'}">
+        <p-menubar [model]="items"></p-menubar>
+
+        <ng-container *ngIf="segUsuarios">
+
+            <p-table #dt [value]="segUsuarios" [resizableColumns]="true" [responsive]="true" [paginator]="true" selectionMode="single" [(selection)]="selectedUsuario" [rows]="10" [resizableColumns]="true" columnResizeMode="expand" autoLayout="true" [columns]="cols"
+                datakey="idUsuario">
+
+                <!-- Buscador -->
+                <ng-template pTemplate="caption">
+
+                    <div style="text-align: right">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+
+                </ng-template>
+                <span class="st-icon-addthis"></span>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+                            </p-sortIcon>
+                        </th>
+                    </tr>
+                    <!-- Inicio: Método que hace la busqueda (Filter Global) -->
+                    <tr>
+                        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                            <input *ngSwitchCase="'estado'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                        </th>
+                    </tr>
+                    <!-- Fin -->
+
+                </ng-template>
+
+                <ng-template pTemplate="body" let-segusuario let-columns="columns">
+                    <tr [pSelectableRow]="segusuario">
+
+                        <td *ngFor="let col of columns">
+
+                            {{segusuario[col.field]}}
+
+                        </td>
+                    </tr>
+
+                </ng-template>
+
+            </p-table>
+        </ng-container>
+
+        <p-footer style="color:orangered;">
+            <b>Cantidad de registros : {{cantidaRegistros}}</b>
+            <br />
+            <b>{{mensajeError}}</b>
+        </p-footer>
+    </p-panel>
+
+    <!-- Modal -->
+
+    <p-dialog header={{titulo}} [(visible)]="displaySaveDialog" [responsive]="true" [style]="{width: '40vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true">
+
+        <div class="ui-g ui-fluid">
+
+
+            <!-- 1 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="idUsuario">ID</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="idUsuario" [(ngModel)]="segusuario.idUsuario" pInputText placeholder="idUsuario" disabled="true">
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- 2 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre">Login</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="login" [(ngModel)]="segusuario.login" pInputText placeholder="Login">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- 3 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre">Password</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input pInputText type="password" id="password" [(ngModel)]="segusuario.password" pInputText placeholder="Password">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 4 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombres">Nombres</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="nombres" [(ngModel)]="segusuario.nombres" pInputText placeholder="Nombres">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre">Apellido Paterno</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="apellidoPaterno" [(ngModel)]="segusuario.apellidoPaterno" pInputText placeholder="Apellido Paterno">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre">Apellido Materno</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="apellidoMaterno" [(ngModel)]="segusuario.apellidoMaterno" pInputText placeholder="Apellido Materno">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7 -->
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre">Email</label>
+                </div>
+                <div class="ui-g-8">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+                        <input type="text" id="correoElectronico" [(ngModel)]="segusuario.correoElectronico" pInputText placeholder="correo Electronico">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8 -->
+
+
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Estado">Activo</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-checkbox name="isUsuarioActivo" value="val1" label="Activo" [(ngModel)]="segusuario.isUsuarioActivo" binary="true"></p-checkbox>
+                </div>
+
+
+
+            </div>
+
+            <!-- 9 -->
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Estado">Cambio Password</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-checkbox name="isCambioPassword" value="val1" label="Activo" [(ngModel)]="segusuario.isCambioPassword" binary="true"></p-checkbox>
+                </div>
+
+                <p style="color: red;">{{mensajeError}}</p>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" (click)="saveUsuario()" pButton icon="fa fa-check" label="Guardar" style="border-color: orange; background-color: #ffefcc; color: orangered;"></button>
+                <button type="button" pButton icon="fa fa-close" (click)="Cancelar()" label="Cancelar" style="background-color: #E04023; border-color: #E04023;"></button>
+
+            </div>
+        </p-footer>
+
+    </p-dialog>
+
+
+
+</div>

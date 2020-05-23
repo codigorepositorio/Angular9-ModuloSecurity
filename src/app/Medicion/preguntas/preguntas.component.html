@@ -1,0 +1,157 @@
+<!-- 
+<app-periodo></app-periodo>
+<app-areas>
+    
+</app-areas> -->
+
+<form>
+    <p-toast></p-toast>
+
+    <p-panel header=" Mantenimiento de Preguntas" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <p-menubar [model]="items"></p-menubar>
+
+        <ng-container *ngIf="preguntas">
+            <p-table [value]="preguntas" [resizableColumns]="true" [responsive]="false" [paginator]="true"
+                selectionMode="single" [(selection)]="selectpreguntas" dataKey=idPregunta [rows]="10"
+                [resizableColumns]="true" columnResizeMode="expand" autoLayout="true" id="tablaPregunta">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Item</th>
+                        <th>Categoria</th>
+                        <th>Fase</th>
+                        <th>Pregunta</th>
+                        <th>Puntaje </th>
+                        <th>Estado </th>
+                        <th style="text-align: center;">Activo </th>
+
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-item let-rowData>
+                    <tr [pSelectableRow]="rowData">
+                        <!-- {{item.idPregunta}} -->
+                        <td class="ui-resizable-column">{{item.correlativo}}</td>                      
+                        <td class="ui-resizable-column">{{item.nombreCategoria}}</td>
+                        <td class="ui-resizable-column">{{item.nombreFase}}</td>
+                        <td class="ui-resizable-column">{{item.nombrePregunta}}</td>
+                        <td class="ui-resizable-column"> {{item.puntaje}}</td>
+
+                        <!-- Inicio: de activar / desactivar Pregunta -->
+                        <div *ngIf="item.isPreguntaActivo==='Activo'">
+                            <td class="ui-resizable-column">
+                                Activo
+                            </td>
+                        </div>
+                        <div *ngIf="item.isPreguntaActivo==='Inactivo'">
+                            <td class="ui-resizable-column" Style="color:red">
+                                Inactivo </td>
+                        </div>
+
+                        <td class="ui-resizable-column">
+                            <div *ngIf="item.isPreguntaActivo==='Inactivo'">
+                        <td class="ui-resizable-column">
+                            <i class="fas fa-check" icon="fa fa-check" (click)="habilitaPregunta(item.idPregunta)">
+                            </i>
+                        </td>
+                        </div>
+
+                        <div *ngIf="item.isPreguntaActivo==='Activo'">
+                            <td class="ui-resizable-column">
+                                <i class="fas fa-trash-alt" (click)="delPregunta(item.idPregunta)">
+                                </i>
+
+                            </td>
+                        </div>
+                        </td>
+                        <!-- Fin: de activar / desactivar Pregunta -->
+
+
+                </ng-template>
+            </p-table>
+        </ng-container>
+
+        <p-footer style="color:orangered;">
+            <b>Cantidad de registros : {{cantidaRegistros}}</b>
+
+        </p-footer>
+    </p-panel>
+
+    <!-- Formulario modal -->
+    <p-dialog header="Nueva Pregunta" [(visible)]="displaySaveDialog" [responsive]="true" [style]="{width: '40vw'}"
+        [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true">
+
+        
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Fase">Fase</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [options]="arrayFases" placeholder="Selecione Fase" optionLabel="nombre"
+                        [showClear]="true" [(ngModel)]="codFase" name="something">
+                    </p-dropdown>
+                </div>
+            </div>
+
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Fase">Categoria</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [options]="categorias"
+                     placeholder="Selecione Categoria" optionLabel="nombre"
+                    
+                        [showClear]="true" [(ngModel)]="codCategoria" 
+                        
+                        name="something"
+                        >
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Descripción">Descripción</label>
+                </div>
+                <div class="ui-g-8">
+                    <textarea [rows]="0" [cols]="30" pInputTextarea autoResize="autoResize" name="something"
+                        [(ngModel)]="nombre" name="nombre"></textarea>
+                </div>
+
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Puntaje">Puntaje</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-spinner [min]="0" [max]="10" placeholder="0 - 10"
+                     [(ngModel)]="puntaje" name="something">
+                    </p-spinner>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="Estado">Estado</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-checkbox name="isActivo" value="val1" label="Activo" [(ngModel)]="isActivo" binary="true">
+                    </p-checkbox>
+                </div>
+
+                <p style="color: red;">{{mensajeError}}</p>
+
+            </div>
+
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="fa fa-close" label="Delete"></button>
+                <button type="button" (click)="postPregunta()" pButton icon="fa fa-check" label="Save"></button>
+            </div>
+        </p-footer>
+
+    </p-dialog>
+</form>

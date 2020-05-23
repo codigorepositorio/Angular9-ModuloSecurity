@@ -1,0 +1,80 @@
+<!-- <div class="login-panel">
+    <div class="p-grid p-nogutter p-justify-center p-align-center" style="height:100%">
+      <div class="p-xl-3 p-lg-6 p-md-8 p-sm-10">
+        <p-panel header="Iniciar sesión">
+          <div class="p-grid p-justify-center p-align-center">
+            <div class="p-xl-6 p-lg-6 p-md-8 p-sm-10">
+              <img src="../assets/images/textilvalle.PNG" class="login-logo">
+            </div>
+            <div class="p-col-12">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon ui-float-label"><i class="fa fa-user"></i></span>
+                <!--   Model Binding -->
+<!-- <input id="input-username" type="text" size="30" pInputText [(ngModel)]="loginModel.Cod_Usuario"
+                  placeholder="login">
+              </div>
+            </div>
+            <div class="p-col-12">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-key"></i></span>
+                <input id="input-password" type="password" size="30" pInputText [(ngModel)]="loginModel.Password"
+                  placeholder="clave">
+              </div>
+            </div>
+            <div class="p-col-12 center">
+              <a>Olvidé mi clave</a>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-6">
+              <button pButton type="button" label="Ingresar" class="ui-button-raised" (click)="onClickLogin()"></button>
+            </div>
+            <div class="p-col-6">
+              <button pButton type="button" label="Regístrate" class="ui-button-raised"
+              [routerLink]="['/register']"></button>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div> -->
+<!-- </div> -->
+<!-- 
+  Data:
+  login: {{login}}
+  password: {{login}} -->
+
+
+<div class="img-fondo"></div>
+<div class="login-body">
+  <div class="login-panel"></div>
+
+  <div class="login-content">
+    <img class="img-ingreso" src="assets/img/Logo-TDV-completo.png" alt="Logo" />
+
+    <!-- <h1><span>Ingresar a</span> Estampados</h1> -->
+    <h1>Bienvenido</h1>
+    <!-- <p class="bienvenida">Bienvenido, por favor rellene el formulario para su ingreso.</p> -->
+
+    <div class="login-input-wrapper">
+      <input id="input-username" 
+      
+      type="text" autocomplete="off"
+        placeholder="Usuario" class="ui-inputtext ui-widget">
+    </div>
+
+    <div class="login-input-wrapper">
+      <input (keyUp.enter)="onClickLogin()" id="input-password" type="password"
+       [(ngModel)]="loginModel.Password"
+
+        autocomplete="off" placeholder="Contraseña" class="ui-inputtext ui-widget" 
+        placeholder="clave">
+
+        
+    </div>
+
+    <button (click)="onClickLogin()" type="button"
+      class="ui-button  ui-button-danger ui-widget ui-state-default ui-corner-all ui-button-text-only btn-ingreso-login">
+      <span class="ui-button-text ui-c">Ingresar</span>
+    </button>
+  </div>
+</div>

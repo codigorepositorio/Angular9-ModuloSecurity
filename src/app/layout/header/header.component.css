@@ -1,0 +1,28 @@
+.ng-header{
+    /* position: fixed; */
+  top: 0;
+  left: 0;
+  z-index: 999;
+  /* height: 64px;
+  width: 100%; */
+  background-color: #f76b1c;
+  background-image: -webkit-gradient(linear, left top, left top, from(#f76b1c), to(#fad961));
+  background-image: -webkit-linear-gradient(to left, #f76b1c, #fad961);
+  background-image: -moz-linear-gradient(to left, #f76b1c, #fad961);
+  background-image: -ms-linear-gradient(to left, #f76b1c, #fad961);
+  background-image: -o-linear-gradient(to left, #f76b1c, #fad961);
+  background-image: linear-gradient(to left, #f76b1c, #fad961);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f76b1c", endColorstr="#fad961", gradientType="1");
+}
+.ng-header-left .logo-tdv{
+    /* margin: 8px 0 5px 8px; */
+}
+.logo-small{
+   
+}
+.ng-header-right-item a{
+    color: white;
+}
+.ng-header-right-item i{
+    color: white;
+}

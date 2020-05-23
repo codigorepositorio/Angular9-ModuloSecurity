@@ -1,0 +1,70 @@
+<div class="ng-header">
+    <div class="ng-header-left left">
+        <div class="toggle-menu-button left">
+            <a class="icon" (click)="toggleMenu()"><i class="fa fa-bars"></i></a>
+        </div>
+        <!-- <div >
+            <h1 class="logo-tdv logo-large">TDV</h1>
+        </div> -->
+        <div class="logo right">
+            <img src="assets/img/Logo-TDV-completo.png" class="logo-large">
+            <img src="assets/img/ICON-TDV.png" class="logo-small">
+            <!-- <img src="../assets/images/logo-small.png" class="logo-small"> -->
+        </div>
+        
+    </div>
+    <div class="ng-header-right right">
+        <div class="ng-header-right-item right">
+            <a class="icon" (click)="logout()" >Salir <i class="fa fa-sign-out-alt" ></i></a>
+        </div>
+        <!-- <div class="ng-header-right-item right">
+            <a class="icon"><i class="fa fa-cog"></i></a>
+        </div>
+        <div class="ng-header-right-item right" >
+            <a class="icon"><i class="fa fa-bell"></i><span class="badge">5</span></a>
+        </div>  -->
+        <div class="ng-header-right-item right" >
+            <!-- <a class="icon"><span style="margin-right: 10px;" >{{user}}</span><i class="fa fa-user"></i></a> -->
+        </div>
+        <div class="ng-header-right-item right" (click)="userdetails.toggle($event)">
+            <a class="icon"><span [innerHtml]="" class="user-name"></span><i class="fa fa-user"></i></a>
+        </div>
+    </div>
+</div>
+
+<!-- user detials overlay panel -->
+<p-overlayPanel #userdetails>
+    <!-- <div><b>Login: </b><i [innerHtml]="user.Cod_Usuario"></i></div>
+    <div><b>Codigo: </b><i [innerHtml]="user.Password"></i></div> -->
+</p-overlayPanel>
+
+<!-- notifications sidebar -->
+<p-sidebar [(visible)]="displayNotifications" position="right">
+    <!-- <div *ngFor="let notification of notifications; let i=index" class="notification-message">
+        <div><b>Message: </b><i [innerHtml]="notification.message"></i></div>
+        <div><i>Created On: </i><i [innerHtml]="notification.createdOn | date:'dd/MM/yyyy'"></i></div>
+    </div> -->
+</p-sidebar>
+
+<!-- theme chooser overlay panel -->
+<!-- <p-overlayPanel #themeChooser>
+    Select Theme:
+    <div class="ui-g">
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-1')"
+                style="background-image: -webkit-gradient(linear, left top, right top, from(#517fa4), to(#243949));"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-2')"
+                style="background-image: -webkit-gradient(linear, left top, right top, from(#39e2c9), to(#2d97cb));"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-3')"
+                style="background-image: -webkit-gradient(linear, left top, right top, from(#009688), to(#00897B));"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-4')"
+                style="background-image: -webkit-gradient(linear, left top, right top, from(#f2c58c), to(#f2918b));"></button>
+        </div>
+    </div>
+</p-overlayPanel> -->
